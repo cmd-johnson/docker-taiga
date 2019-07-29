@@ -1,16 +1,16 @@
-FROM python:3.5
+FROM python:3.5-stretch
 MAINTAINER Benjamin Hutchins <ben@hutchins.co>
 
 ENV DEBIAN_FRONTEND noninteractive
 
 # Version of Nginx to install
-ENV NGINX_VERSION 1.15.5-1~stretch
+ENV NGINX_VERSION 1.16.0-1~stretch
 
-RUN apt-key adv \
-  --keyserver hkp://pgp.mit.edu:80 \
-  --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+RUN curl -fsSL https://nginx.org/keys/nginx_signing.key | apt-key add - && \
+    apt-key fingerprint ABF5BD827BD9BF62apt-key adv
 
-RUN echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list
+RUN echo "deb http://nginx.org/packages/debian stretch nginx" \
+    | tee /etc/apt/sources.list.d/nginx.list
 
 RUN set -x; \
     apt-get update \
